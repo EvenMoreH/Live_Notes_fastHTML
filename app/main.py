@@ -12,7 +12,7 @@ app, rt = fast_app(static_path="static") # type: ignore
 # app, rt = fast_app(static_path="app/static") # type: ignore
 
 # handling content files
-content_dir = Path("app/content")
+content_dir = Path("content")
 content_dir.mkdir(parents=True, exist_ok=True)
 
 # file to store the notepad content
