@@ -4,12 +4,16 @@ from fasthtml.common import * # type: ignore
 from fasthtml.common import (
     Html, Head, Body, Div, Title, Link, Meta, Script, Form, Textarea, serve, Path
 )
+from zoneinfo import ZoneInfo
 
 # for Docker
 app, rt = fast_app(static_path="static") # type: ignore
 
 # for local
 # app, rt = fast_app(static_path="app/static") # type: ignore
+
+# handling time changes for polish timezone
+WARSAW_TZ = ZoneInfo("Europe/Warsaw")
 
 # handling content files
 content_dir = Path("content")
@@ -23,7 +27,7 @@ def get_last_saved_time(FILE_PATH):
         # get the last modification time of persistent file as a timestamp
         saved_time = os.path.getmtime(FILE_PATH)
         # convert timestamp to a readable format
-        return datetime.fromtimestamp(saved_time).strftime("%d-%m-%Y %H:%M")
+        return datetime.fromtimestamp(saved_time, WARSAW_TZ).strftime("%d-%m-%Y %H:%M")
     return "File does not exist."
 
 @rt("/")
@@ -68,7 +72,7 @@ def notepad():
 def autosave(content: str):
     with open(FILE_PATH, "w", encoding="utf-8") as file:
         # reading current time to indicate when text was saved
-        last_saved = datetime.now().strftime('%d-%m-%Y %H:%M')
+        last_saved = datetime.now(WARSAW_TZ).strftime('%d-%m-%Y %H:%M')
         print(f"LOG #2: file saved: {FILE_PATH}")
         file.write(content)
 
