@@ -36,6 +36,7 @@ def get_last_saved_time(FILE_PATH):
 @rt("/")
 def notepad():
     saved_time = get_last_saved_time(FILE_PATH)
+    print(f"LOG: file loaded: {FILE_PATH}")
 
     return Html(
         Head(
