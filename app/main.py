@@ -18,13 +18,6 @@ content_dir.mkdir(parents=True, exist_ok=True)
 # file to store the notepad content
 FILE_PATH = f"{content_dir}/notepad_content.txt"
 
-# load content from file if it exists
-if os.path.exists(FILE_PATH):
-    with open(FILE_PATH, "r") as file:
-        notepad_content = file.read()
-else:
-    notepad_content = "Write your notes here..."
-
 def get_last_saved_time(FILE_PATH):
     if os.path.exists(FILE_PATH):
         # get the last modification time of persistent file as a timestamp
@@ -37,6 +30,13 @@ def get_last_saved_time(FILE_PATH):
 def notepad():
     saved_time = get_last_saved_time(FILE_PATH)
     print(f"LOG #1: file loaded: {FILE_PATH}")
+
+    # load content from file if it exists
+    if os.path.exists(FILE_PATH):
+        with open(FILE_PATH, "r", encoding="utf-8") as file:
+            notepad_content = file.read()
+    else:
+        notepad_content = "Write your notes here..."
 
     return Html(
         Head(
@@ -66,7 +66,7 @@ def notepad():
 # autosaving endpoint
 @rt("/autosave")
 def autosave(content: str):
-    with open(FILE_PATH, "w") as file:
+    with open(FILE_PATH, "w", encoding="utf-8") as file:
         # reading current time to indicate when text was saved
         last_saved = datetime.now().strftime('%d-%m-%Y %H:%M')
         print(f"LOG #2: file saved: {FILE_PATH}")
