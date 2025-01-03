@@ -36,7 +36,7 @@ def get_last_saved_time(FILE_PATH):
 @rt("/")
 def notepad():
     saved_time = get_last_saved_time(FILE_PATH)
-    print(f"LOG: file loaded: {FILE_PATH}")
+    print(f"LOG #1: file loaded: {FILE_PATH}")
 
     return Html(
         Head(
@@ -69,6 +69,7 @@ def autosave(content: str):
     with open(FILE_PATH, "w") as file:
         # reading current time to indicate when text was saved
         last_saved = datetime.now().strftime('%d-%m-%Y %H:%M')
+        print(f"LOG #2: file saved: {FILE_PATH}")
         file.write(content)
 
     return Div(f"Changes saved on {last_saved}", id="save-status", style="color:green; margin-top:10px; padding-top:10;")
